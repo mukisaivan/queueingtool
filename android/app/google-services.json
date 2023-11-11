@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "92129078212",
+    "project_id": "queueingtool",
+    "storage_bucket": "queueingtool.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:92129078212:android:3a5e2508e90e38ea4ad291",
+        "android_client_info": {
+          "package_name": "com.example.queueingtool"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDX6L-EgpSzBVEDcXXCq5oXoQo1aFeUiwY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
