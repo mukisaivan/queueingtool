@@ -11,7 +11,7 @@ class Logo extends StatelessWidget {
       decoration: const BoxDecoration(
           image: DecorationImage(
         fit: BoxFit.contain,
-        image: AssetImage("assets/logo/logo3.png"),
+        image: AssetImage("assets/logo/queuelogo.png"),
       )),
     );
   }
