@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:queueingtool/constants/global_variables.dart';
 import 'package:queueingtool/firebase_options.dart';
 import 'package:queueingtool/router.dart';
@@ -24,10 +25,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'QueingTool',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: const Color.fromARGB(255, 82, 80, 68),
-        ),
-      ),
+          colorScheme: ColorScheme.fromSwatch().copyWith(
+            primary: const Color.fromARGB(255, 82, 80, 68),
+          ),
+          textTheme:
+              GoogleFonts.bubblegumSansTextTheme(Theme.of(context).textTheme)),
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
