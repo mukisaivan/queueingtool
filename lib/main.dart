@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:queueingtool/constants/global_variables.dart';
 import 'package:queueingtool/firebase_options.dart';
+import 'package:queueingtool/router.dart';
 import 'package:queueingtool/screens/login_screen.dart';
 import 'package:queueingtool/screens/verification.dart';
 
@@ -26,27 +27,29 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.active) {
-              if (snapshot.hasData) {
-                return const //HomePage()
-                    Verification();
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text("${snapshot.error}"),
-                );
-              }
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: GlobalVariables.primaryColor,
-                ),
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.active) {
+            if (snapshot.hasData) {
+              return const //HomePage()
+                  Verification();
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text("${snapshot.error}"),
               );
             }
-            return const LoginScreen();
-          }),
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: GlobalVariables.primaryColor,
+              ),
+            );
+          }
+          return const LoginScreen();
+        },
+      ),
+      onGenerateRoute: (settings) => genarateRoutes(settings),
     );
   }
 }
