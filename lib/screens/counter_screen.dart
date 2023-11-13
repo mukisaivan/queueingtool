@@ -12,7 +12,17 @@ class CounterScreen extends StatefulWidget {
 class _CounterScreenState extends State<CounterScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Counter Screen'),
+        ),
+        body: const Center(
+          child: Column(
+            children: [
+              OrderWidget(),
+            ],
+          ),
+        ));
   }
 }
 
