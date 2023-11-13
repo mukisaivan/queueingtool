@@ -14,8 +14,12 @@ class OrderMethods {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
 
+    int orderCounter = 1;
+
+    String orderName = "Order-${orderCounter++}";
+
     var order = OrderModel(
-      name: "",
+      name: orderName,
       id: "id",
       status: StatusEnum.Pending,
       createdAt: DateTime.now(),
