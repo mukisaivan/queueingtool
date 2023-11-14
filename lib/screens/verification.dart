@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:queueingtool/screens/counter_screen.dart';
-import 'package:queueingtool/screens/home_screen.dart';
+import 'package:queueingtool/screens/customer_first_screen.dart';
 
 class Verification extends StatefulWidget {
   const Verification({super.key});
@@ -43,7 +43,7 @@ class _VerificationState extends State<Verification> {
     if (userRole == "admin") {
       return const CounterScreen();
     } else {
-      return const HomeScreen();
+      return const CustomerFirstScreen();
     }
   }
 }

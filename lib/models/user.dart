@@ -18,7 +18,7 @@ class UserModel {
     required this.role,
   });
 
-  static fromSnap(DocumentSnapshot snap) {
+  static fromSnap(DocumentSnapshot snap) async {
     var snapshot = snap.data() as Map<String, dynamic>;
     return UserModel(
       email: snapshot["email"],
@@ -36,4 +36,14 @@ class UserModel {
         "photoUrl": photoUrl,
         "role": role,
       };
+
+  static fromMap(Map<String, dynamic> map) {
+    return UserModel(
+      email: map["email"] as String,
+      uid: map["uid"] as String,
+      photoUrl: map["photoUrl"] as String,
+      username: map["username"] as String,
+      role: map["role"] as String? ?? client,
+    );
+  }
 }

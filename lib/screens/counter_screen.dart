@@ -1,6 +1,8 @@
 // ignore_for_file: library_private_types_in_public_api, constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:queueingtool/common/signout_button.dart';
+import 'package:queueingtool/methods/counter_order_methods.dart';
 
 class CounterScreen extends StatefulWidget {
   const CounterScreen({super.key});
@@ -15,11 +17,16 @@ class _CounterScreenState extends State<CounterScreen> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Counter Screen'),
+          centerTitle: true,
         ),
-        body: const Center(
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             children: [
-              OrderWidget(),
+              Expanded(
+                child: CounterOrderMethods().fetchOrders(),
+              ),
+              SignOutButton(context: context)
             ],
           ),
         ));
@@ -64,7 +71,7 @@ class _OrderWidgetState extends State<OrderWidget> {
       case OrderStatus.Waiting:
         return const Color.fromARGB(255, 9, 218, 255);
       case OrderStatus.Pending:
-        return const Color.fromARGB(255, 251, 255, 0);
+        return const Color.fromARGB(255, 101, 102, 74);
       case OrderStatus.Completed:
         return const Color.fromARGB(255, 0, 255, 8);
     }
