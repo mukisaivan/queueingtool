@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:queueingtool/constants/global_variables.dart';
 
 class Loading extends StatelessWidget {
   const Loading({super.key});
@@ -10,9 +9,8 @@ class Loading extends StatelessWidget {
     return Container(
       color: Colors.grey[400],
       child: const Center(
-        child: SpinKitCircle(
-          color: GlobalVariables.primaryColor,
-          size: 50,
+        child: SpinKitWave(
+          color: Color.fromARGB(255, 191, 0, 255),
         ),
       ),
     );

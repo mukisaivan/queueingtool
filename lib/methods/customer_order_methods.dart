@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:queueingtool/common/loading.dart';
 import 'package:queueingtool/common/toast_widget.dart';
 import 'package:queueingtool/models/order_model.dart';
@@ -61,14 +62,14 @@ class CustomerOrderMethods {
         return ListView.builder(
           itemCount: orders.length,
           itemBuilder: (context, index) {
-            return buildOrderCard(orders[index]);
+            return buildOrderCard(orders[index], index);
           },
         );
       },
     );
   }
 
-  Widget buildOrderCard(OrderModel order) {
+  Widget buildOrderCard(OrderModel order, int index) {
     // OrderStatus orderStatus = OrderStatus.Waiting;
 
     String orderStatusToString(StatusEnum status) {
@@ -98,24 +99,34 @@ class CustomerOrderMethods {
     String orderService = order.service.toString().split(".").last;
 
     return Card(
+      elevation: 30,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       color: isCurrentUserOwner(FirebaseAuth.instance.currentUser!, order)
           ? const Color.fromARGB(255, 255, 101, 152)
           : colorchanger(order.status),
       margin: const EdgeInsets.all(8.0),
       child: Padding(
-        padding: const EdgeInsets.only(top: 16, bottom: 16, right: 5, left: 5),
+        padding:
+            const EdgeInsets.only(top: 16, bottom: 16, right: 20, left: 20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Column(
                   children: [
+                    // Text(
+                    //   '#${order.id}',
+                    //   style: const TextStyle(
+                    //       fontSize: 10, fontWeight: FontWeight.bold),
+                    // ),
                     Text(
-                      '#${order.id}',
-                      style: const TextStyle(
-                          fontSize: 10, fontWeight: FontWeight.bold),
+                      "Order  ${index + 1}",
+                      style: isCurrentUserOwner(
+                              FirebaseAuth.instance.currentUser!, order)
+                          ? const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold)
+                          : const TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8.0),
 
@@ -123,21 +134,16 @@ class CustomerOrderMethods {
                             FirebaseAuth.instance.currentUser!, order)
                         ? const Text(
                             "Y O U R   O R D E R",
-                            style: TextStyle(fontSize: 20),
-                          )
-                        : Text(
-                            '#${order.name}',
-                            style: const TextStyle(
-                                fontSize: 8, fontWeight: FontWeight.bold),
-                          ),
-                    isCurrentUserOwner(
-                            FirebaseAuth.instance.currentUser!, order)
-                        ? Text(
-                            '#${order.name}',
-                            style: const TextStyle(
-                                fontSize: 10, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w800),
                           )
                         : const SizedBox(),
+                    // Text(
+                    //     '#${order.name}',
+                    //     style: const TextStyle(
+                    //         fontSize: 8, fontWeight: FontWeight.bold),
+                    //   ),
+
                     Text(
                       'Ordered by : ${order.orderowner.username}',
                       style: const TextStyle(
@@ -156,9 +162,14 @@ class CustomerOrderMethods {
                     const SizedBox(height: 16.0),
                   ],
                 ),
+                const SizedBox(width: 50),
                 order.status == StatusEnum.Pending
                     ? const Column(
-                        children: [CircularProgressIndicator()],
+                        children: [
+                          SpinKitWave(
+                            color: Color.fromARGB(255, 191, 0, 255),
+                          ),
+                        ],
                       )
                     : const SizedBox()
               ],

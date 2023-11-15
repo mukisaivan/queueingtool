@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:queueingtool/common/loading.dart';
 import 'package:queueingtool/common/toast_widget.dart';
 import 'package:queueingtool/models/order_model.dart';
@@ -53,14 +54,14 @@ class CounterOrderMethods {
         return ListView.builder(
           itemCount: orders.length,
           itemBuilder: (context, index) {
-            return buildOrderCard(orders[index]);
+            return buildOrderCard(orders[index], index);
           },
         );
       },
     );
   }
 
-  Widget buildOrderCard(OrderModel order) {
+  Widget buildOrderCard(OrderModel order, int index) {
     // OrderStatus orderStatus = OrderStatus.Waiting;
 
     String orderStatusToString(StatusEnum status) {
@@ -105,10 +106,13 @@ class CounterOrderMethods {
     String orderService = order.service.toString().split(".").last;
 
     return Card(
+      elevation: 30,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       color: colorchanger(order.status),
       margin: const EdgeInsets.all(8.0),
       child: Padding(
-        padding: const EdgeInsets.only(top: 16, bottom: 16, right: 5, left: 5),
+        padding:
+            const EdgeInsets.only(top: 16, bottom: 16, right: 20, left: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -119,10 +123,15 @@ class CounterOrderMethods {
                   children: [
                     const SizedBox(height: 8.0),
                     Text(
-                      '#${order.name}',
+                      "Order  ${index + 1}",
                       style: const TextStyle(
                           fontSize: 25, fontWeight: FontWeight.bold),
                     ),
+                    // Text(
+                    //   '#${order.name}',
+                    //   style: const TextStyle(
+                    //       fontSize: 25, fontWeight: FontWeight.bold),
+                    // ),
                     Text(
                       'Ordered by : ${order.orderowner.username}',
                       style: const TextStyle(
@@ -138,9 +147,14 @@ class CounterOrderMethods {
                     const SizedBox(height: 16.0),
                   ],
                 ),
+                const SizedBox(width: 50),
                 order.status == StatusEnum.Pending
                     ? const Column(
-                        children: [CircularProgressIndicator()],
+                        children: [
+                          SpinKitWave(
+                            color: Color.fromARGB(255, 191, 0, 255),
+                          ),
+                        ],
                       )
                     : const SizedBox()
               ],

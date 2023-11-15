@@ -31,17 +31,18 @@ class _MyAnimatedImageWidgetState extends State<MyAnimatedImageWidget>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
+  late Animation<double> animation2;
 
   @override
   void initState() {
     super.initState();
 
     _controller = AnimationController(
-      duration: const Duration(seconds: 2), // Set the duration of the animation
+      duration: const Duration(seconds: 5), // Set the duration of the animation
       vsync: this,
     );
 
-    _animation = Tween<double>(begin: 0, end: 360).animate(_controller)
+    _animation = Tween<double>(begin: 0, end: 720).animate(_controller)
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           // Animation has completed, reset it
@@ -61,11 +62,16 @@ class _MyAnimatedImageWidgetState extends State<MyAnimatedImageWidget>
     return AnimatedBuilder(
       animation: _animation,
       builder: (context, child) {
-        return Transform.rotate(
-          angle: _animation.value * 3.1415927 / 180,
-          child: Image.asset(
-              'assets/logo/goldenq.png'), // Replace 'your_image.png' with your image asset path
+        return Transform.scale(
+          child: Image.asset('assets/logo/goldenq.png'),
+          scale: 0.5,
+          // origin: Offset(10, 10),
         );
+        // return Transform.rotate(
+        //   angle: _animation.value * 3.1415927 / 180,
+        //   child: Image.asset(
+        //       'assets/logo/goldenq.png'), // Replace 'your_image.png' with your image asset path
+        // );
       },
     );
   }

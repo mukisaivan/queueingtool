@@ -1,8 +1,8 @@
 import 'dart:typed_data';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:queueingtool/common/custom_button.dart';
 import 'package:queueingtool/common/custom_textfield.dart';
-import 'package:queueingtool/common/logo.dart';
 import 'package:queueingtool/common/space.dart';
 import 'package:queueingtool/constants/global_variables.dart';
 import 'package:queueingtool/constants/utils.dart';
@@ -39,7 +39,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
             context: context,
             builder: (context) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: SpinKitWave(
+                  color: Color.fromARGB(255, 191, 0, 255),
+                ),
               );
             });
       }
@@ -104,7 +106,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
                       return const Center(
-                        child: CircularProgressIndicator(),
+                        child: SpinKitWave(
+                          color: Color.fromARGB(255, 191, 0, 255),
+                        ),
                       );
 
                     case ConnectionState.done:
@@ -112,7 +116,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         key: _formKey,
                         child: Column(
                           children: [
-                            const Logo(),
+                            // const Logo(),
+                            Image(
+                              image: const AssetImage(
+                                "assets/logo/goldenq.png",
+                              ),
+                              // height: MediaQuery.of(context).size.height * 0.2,
+                              width: MediaQuery.of(context).size.width * 0.5,
+                            ),
                             const Space(),
                             Stack(
                               children: [

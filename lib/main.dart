@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:queueingtool/constants/global_variables.dart';
 import 'package:queueingtool/firebase_options.dart';
 import 'package:queueingtool/router.dart';
-import 'package:queueingtool/screens/login_screen.dart';
+import 'package:queueingtool/screens/splash_screen.dart';
 import 'package:queueingtool/screens/verification.dart';
 
 void main() async {
@@ -23,10 +23,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'QueingTool',
+      title: 'QueVex',
       theme: ThemeData(
           colorScheme: ColorScheme.fromSwatch().copyWith(
-            primary: const Color.fromARGB(255, 82, 80, 68),
+            primary: const Color.fromARGB(255, 255, 2, 238),
           ),
           textTheme:
               GoogleFonts.bubblegumSansTextTheme(Theme.of(context).textTheme)),
@@ -35,8 +35,7 @@ class MyApp extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.hasData) {
-              return const //HomePage()
-                  Verification();
+              return const Verification();
             } else if (snapshot.hasError) {
               return Center(
                 child: Text("${snapshot.error}"),
@@ -45,12 +44,12 @@ class MyApp extends StatelessWidget {
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-              child: CircularProgressIndicator(
-                color: GlobalVariables.primaryColor,
+              child: SpinKitWave(
+                color: Color.fromARGB(255, 191, 0, 255),
               ),
             );
           }
-          return const LoginScreen();
+          return const SplashScreen();
         },
       ),
       onGenerateRoute: (settings) => genarateRoutes(settings),

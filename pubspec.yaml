@@ -49,6 +49,7 @@ dependencies:
   image_picker: ^1.0.4
   flutter_spinkit: ^5.2.0
   google_fonts: ^6.1.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +77,7 @@ flutter:
   assets:
     - assets/images/
     - assets/logo/
+    - assets/icon/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

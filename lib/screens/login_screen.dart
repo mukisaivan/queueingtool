@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:queueingtool/common/custom_button.dart';
 import 'package:queueingtool/common/custom_textfield.dart';
 import 'package:queueingtool/common/loading.dart';
-import 'package:queueingtool/common/logo.dart';
 import 'package:queueingtool/common/space.dart';
 import 'package:queueingtool/firebase_options.dart';
 import 'package:queueingtool/methods/auth_methods.dart';
@@ -90,7 +90,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         switch (snapshot.connectionState) {
                           case ConnectionState.waiting:
                             return const Center(
-                              child: CircularProgressIndicator(),
+                              child: SpinKitWave(
+                                color: Color.fromARGB(255, 191, 0, 255),
+                              ),
                             );
 
                           case ConnectionState.done:
@@ -99,7 +101,15 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: Column(
                                 children: [
                                   const Space(),
-                                  const Logo(),
+                                  // const Logo(),
+                                  Image(
+                                    image: const AssetImage(
+                                      "assets/logo/goldenq.png",
+                                    ),
+                                    // height: MediaQuery.of(context).size.height * 0.2,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.5,
+                                  ),
                                   const SizedBox(height: 30),
                                   MyTextField(
                                     validate: (value) {
