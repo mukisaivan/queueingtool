@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:queueingtool/common/signout_button.dart';
+import 'package:queueingtool/screens/customer_screen.dart';
 import 'package:queueingtool/screens/service_widgets.dart';
 
 class CustomerFirstScreen extends StatefulWidget {
@@ -30,7 +31,17 @@ class _CustomerFirstScreenState extends State<CustomerFirstScreen> {
             children: [
               const ServiceSelectionWidget(),
               const SizedBox(height: 50),
-              SignOutButton(context: context)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SignOutButton(context: context),
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, CustomerScreen.routeName);
+                      },
+                      child: const Text("Move To Orders Screen"))
+                ],
+              )
             ],
           ),
         ),

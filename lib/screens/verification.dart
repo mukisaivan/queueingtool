@@ -5,6 +5,7 @@ import 'package:queueingtool/screens/counter_screen.dart';
 import 'package:queueingtool/screens/customer_first_screen.dart';
 
 class Verification extends StatefulWidget {
+  static String? userRole;
   const Verification({super.key});
 
   @override
@@ -12,8 +13,6 @@ class Verification extends StatefulWidget {
 }
 
 class _VerificationState extends State<Verification> {
-  String? userRole;
-
   @override
   void initState() {
     super.initState();
@@ -33,14 +32,13 @@ class _VerificationState extends State<Verification> {
     final data = snapshot.data();
 
     setState(() {
-      userRole = data!["role"] as String;
+      Verification.userRole = data!["role"] as String;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // return userRole == "admin" ? const AdminPage() : const HomePage();
-    if (userRole == "admin") {
+    if (Verification.userRole == "admin") {
       return const CounterScreen();
     } else {
       return const CustomerFirstScreen();

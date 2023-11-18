@@ -7,12 +7,15 @@ import 'package:queueingtool/firebase_options.dart';
 import 'package:queueingtool/router.dart';
 import 'package:queueingtool/screens/splash_screen.dart';
 import 'package:queueingtool/screens/verification.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  runApp(const MyApp());
+  runApp(
+    const ProviderScope(child: MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -26,7 +29,7 @@ class MyApp extends StatelessWidget {
       title: 'QueVex',
       theme: ThemeData(
           colorScheme: ColorScheme.fromSwatch().copyWith(
-            primary: const Color.fromARGB(255, 255, 2, 238),
+            primary: const Color.fromARGB(255, 237, 135, 255),
           ),
           textTheme:
               GoogleFonts.bubblegumSansTextTheme(Theme.of(context).textTheme)),

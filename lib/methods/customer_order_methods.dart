@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, non_constant_identifier_names
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,12 +9,11 @@ import 'package:queueingtool/common/toast_widget.dart';
 import 'package:queueingtool/models/order_model.dart';
 import 'package:queueingtool/models/user.dart';
 import 'package:queueingtool/screens/customer_screen.dart';
+import 'package:queueingtool/screens/verification.dart';
 import 'package:uuid/uuid.dart';
 
 class CustomerOrderMethods {
   final currentUser = FirebaseAuth.instance.currentUser;
-
-  // Get the user's document from Firestore
 
   addOrder(BuildContext context, ServiceEnum? serviceEnum) async {
     DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
@@ -40,6 +39,61 @@ class CustomerOrderMethods {
       const Color.fromARGB(255, 255, 101, 250),
     );
     Navigator.pushNamed(context, CustomerScreen.routeName);
+  }
+
+  // fetchPremiumOrders() {
+  //   return StreamBuilder(
+  //     stream: FirebaseFirestore.instance.collection("Orders").snapshots(),
+  //     builder: (context, snapshot) {
+  //       if (!snapshot.hasData) {
+  //         return const Loading();
+  //       }
+
+  //       List<OrderModel> ordersList =
+  //           snapshot.data!.docs.map((DocumentSnapshot document) {
+  //         Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+  //         return OrderModel.fromMap(data);
+  //       }).toList();
+
+  //       return ListView.builder(
+  //         itemCount: ordersList.length,
+  //         itemBuilder: (context, index) {
+  //           buildOrderCard(ordersList[index], index);
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
+  fetchPremiumOrders() {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('Orders')
+          .orderBy('createdAt', descending: false)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Loading();
+        }
+
+        List<OrderModel> orders =
+            snapshot.data!.docs.map((DocumentSnapshot document) {
+          Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+          return OrderModel.fromMap(data);
+        }).toList();
+
+        return ListView.builder(
+          itemCount: orders.length,
+          itemBuilder: (context, index) {
+            if (orders[index].orderowner.accountType.name == "Premium") {
+              // return buildOrderCard(orders[index], index);
+              return const Text("Premium");
+            } else {
+              return buildOrderCard(orders[index], index);
+            }
+          },
+        );
+      },
+    );
   }
 
   fetchOrders() {
@@ -96,86 +150,227 @@ class CustomerOrderMethods {
       return const Color.fromARGB(255, 88, 86, 65);
     }
 
+    void updateOrderStatus(OrderModel order, StatusEnum newStatus) async {
+      try {
+        await FirebaseFirestore.instance
+            .collection("Orders")
+            .doc(order.id)
+            .update({
+          'status': newStatus.toString().split(".").last,
+          'updatedAt': DateTime.now().millisecondsSinceEpoch,
+        });
+      } catch (e) {
+        print("Error: $e");
+      }
+    }
+
     String orderService = order.service.toString().split(".").last;
 
-    return Card(
-      elevation: 30,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      color: isCurrentUserOwner(FirebaseAuth.instance.currentUser!, order)
-          ? const Color.fromARGB(255, 255, 101, 152)
-          : colorchanger(order.status),
-      margin: const EdgeInsets.all(8.0),
-      child: Padding(
-        padding:
-            const EdgeInsets.only(top: 16, bottom: 16, right: 20, left: 20),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Column(
-                  children: [
-                    // Text(
-                    //   '#${order.id}',
-                    //   style: const TextStyle(
-                    //       fontSize: 10, fontWeight: FontWeight.bold),
-                    // ),
-                    Text(
-                      "Order  ${index + 1}",
-                      style: isCurrentUserOwner(
-                              FirebaseAuth.instance.currentUser!, order)
-                          ? const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold)
-                          : const TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8.0),
+    Future<void> accountTypeFunction() async {
+      var OrderOwnerSnapshot = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(order.orderowner.uid)
+          .get();
+      var data = OrderOwnerSnapshot.data();
+      if (data != null) {
+        var username = data['username'];
+        var accountType = data['accountType'];
 
-                    isCurrentUserOwner(
-                            FirebaseAuth.instance.currentUser!, order)
-                        ? const Text(
-                            "Y O U R   O R D E R",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w800),
-                          )
-                        : const SizedBox(),
-                    // Text(
-                    //     '#${order.name}',
-                    //     style: const TextStyle(
-                    //         fontSize: 8, fontWeight: FontWeight.bold),
-                    //   ),
+        print("name:: ---------------------$username");
+        print("at:: ---------------------$accountType");
 
-                    Text(
-                      'Ordered by : ${order.orderowner.username}',
-                      style: const TextStyle(
-                          fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8.0),
-                    Text(
-                        'Service Needed: $orderService'), // Modify this to show actual order items
-                    const SizedBox(height: 8.0),
-                    Text(
-                      'Status: ${orderStatusToString(order.status)}',
-                      style: const TextStyle(
-                        fontSize: 10,
-                      ),
-                    ),
-                    const SizedBox(height: 16.0),
-                  ],
-                ),
-                const SizedBox(width: 50),
-                order.status == StatusEnum.Pending
-                    ? const Column(
+        if (accountType == "Premium") {}
+      } else {}
+    }
+
+    Future<Widget> showBlueTick() async {
+      var OrderOwnerSnapshot = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(order.orderowner.uid)
+          .get();
+
+      var data = OrderOwnerSnapshot.data();
+
+      var accountType = data!['accountType'];
+
+      if (accountType == "Premium") {
+        return const Icon(
+          Icons.verified_rounded,
+          color: Color.fromARGB(255, 21, 4, 255),
+        );
+      } else {
+        return const SizedBox();
+      }
+    }
+
+    Future<Widget> showAccountTypeName() async {
+      var snap = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(order.orderowner.uid)
+          .get();
+
+      var accountType = snap.data()!["accountType"];
+      return Text("AccountType:  $accountType");
+    }
+
+    // Future<Widget> howCounterSeesOrders() async {
+    //   var snap = await FirebaseFirestore.instance
+    //       .collection("users")
+    //       .doc(order.orderowner.uid)
+    //       .get();
+
+    //   var accountType = snap.data()!["accountType"];
+
+    //   if (accountType == "Premium") {
+    //     return fetchPremiumOrders();
+    //   } else {
+    //     return fetchOrders();
+    //   }
+    // }
+
+    return GestureDetector(
+      onTap: () {
+        accountTypeFunction();
+      },
+      child: Stack(
+        children: [
+          Card(
+            elevation: 30,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            color: isCurrentUserOwner(currentUser!, order)
+                ? const Color.fromARGB(255, 255, 101, 152)
+                : colorchanger(order.status),
+            margin: const EdgeInsets.all(8.0),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 16, bottom: 16, right: 20, left: 20),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Column(
                         children: [
-                          SpinKitWave(
-                            color: Color.fromARGB(255, 191, 0, 255),
+                          // Text(
+                          //   '#${order.id}',
+                          //   style: const TextStyle(
+                          //       fontSize: 10, fontWeight: FontWeight.bold),
+                          // ),
+                          Text(
+                            "Order  ${index + 1}",
+                            style: isCurrentUserOwner(currentUser!, order)
+                                ? const TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.bold)
+                                : const TextStyle(
+                                    fontSize: 25, fontWeight: FontWeight.bold),
                           ),
+                          const SizedBox(height: 8.0),
+
+                          isCurrentUserOwner(currentUser!, order)
+                              ? const Text(
+                                  "Y O U R   O R D E R",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w800),
+                                )
+                              : const SizedBox(),
+
+                          Text(
+                            'Ordered by : ${order.orderowner.username}',
+                            style: const TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
+                          ),
+                          FutureBuilder(
+                              future: showAccountTypeName(),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  const Loading();
+                                }
+                                return snapshot.data ?? Container();
+                              }),
+
+                          const SizedBox(height: 8.0),
+                          Text(
+                              'Service Needed: $orderService'), // Modify this to show actual order items
+                          const SizedBox(height: 8.0),
+                          Text(
+                            'Status: ${orderStatusToString(order.status)}',
+                            style: const TextStyle(
+                              fontSize: 10,
+                            ),
+                          ),
+                          const SizedBox(height: 16.0),
                         ],
-                      )
-                    : const SizedBox()
-              ],
+                      ),
+                      const SizedBox(width: 20),
+                      order.status == StatusEnum.Pending
+                          ? const Column(
+                              children: [
+                                SpinKitWave(
+                                  color: Color.fromARGB(255, 191, 0, 255),
+                                ),
+                              ],
+                            )
+                          : const SizedBox()
+                    ],
+                  ),
+                  Verification.userRole == "admin"
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            order.status != StatusEnum.Pending
+                                ? ElevatedButton(
+                                    onPressed: () {
+                                      updateOrderStatus(
+                                          order, StatusEnum.Waiting);
+                                    },
+                                    child: const Text('Waiting'),
+                                  )
+                                : const SizedBox(),
+                            order.status != StatusEnum.Pending
+                                ? ElevatedButton(
+                                    onPressed: () {
+                                      updateOrderStatus(
+                                          order, StatusEnum.Pending);
+                                      print(
+                                          "-----------------------${order.orderowner.accountType.name}");
+                                    },
+                                    child: const Text('Pending'),
+                                  )
+                                : const SizedBox(),
+                            ElevatedButton(
+                              onPressed: () {
+                                updateOrderStatus(order, StatusEnum.Completed);
+                                deleteOrder(order);
+                                toastWidget("Order Completed",
+                                    const Color.fromARGB(255, 0, 255, 8));
+                              },
+                              child: const Text('Completed'),
+                            ),
+                          ],
+                        )
+                      : const SizedBox(),
+                ],
+              ),
             ),
-          ],
-        ),
+          ),
+          Positioned(
+            left: 290,
+            top: 20,
+            child: FutureBuilder<Widget>(
+              future: showBlueTick(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return snapshot.data ??
+                      Container(); // Return your widget or an empty container
+                } else {
+                  return const CircularProgressIndicator(); // Or another loading indicator
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -187,8 +382,7 @@ class CustomerOrderMethods {
           .doc(order.id)
           .delete();
     } catch (e) {
-      print('Error deleting order: $e');
-      // Handle the error appropriately
+      toastWidget("$e", Colors.red);
     }
   }
 
@@ -196,5 +390,19 @@ class CustomerOrderMethods {
     var orderOwner = ordermodel.orderowner;
 
     return orderOwner.uid == currentUser.uid;
+  }
+
+  Future<bool> isAdmin() async {
+    var usersSnapshot = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    var data = usersSnapshot.data();
+    data!["accountType"] == "admin";
+    if (data["accountType"] == "admin") {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

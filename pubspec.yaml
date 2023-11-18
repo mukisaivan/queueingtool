@@ -50,6 +50,7 @@ dependencies:
   flutter_spinkit: ^5.2.0
   google_fonts: ^6.1.0
   flutter_launcher_icons: ^0.13.1
+  webview_flutter: ^4.4.2
 
 dev_dependencies:
   flutter_test:

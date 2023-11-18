@@ -6,19 +6,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:queueingtool/constants/global_variables.dart';
 import 'package:queueingtool/methods/storage_methods.dart';
 import 'package:queueingtool/models/user.dart' as model;
+import 'package:queueingtool/models/user.dart';
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  //get User details
-  Future<model.UserModel> getUserDetails() async {
-    User currentUser = _auth.currentUser!;
-    DocumentSnapshot documentSnapshot =
-        await _firestore.collection("users").doc(currentUser.uid).get();
-
-    return model.UserModel.fromSnap(documentSnapshot);
-  }
 
   Future<String> signUpUser({
     required String name,
@@ -38,12 +30,12 @@ class AuthMethods {
             .uploadImageToStorage('profilePics', file, false);
 
         model.UserModel user = model.UserModel(
-          email: email,
-          uid: credentials.user!.uid,
-          photoUrl: photoUrl,
-          username: name,
-          role: "client",
-        );
+            email: email,
+            uid: credentials.user!.uid,
+            photoUrl: photoUrl,
+            username: name,
+            role: "client",
+            accountType: AccountTypeEnum.Normal);
 
         //storing user to database
         await _firestore
