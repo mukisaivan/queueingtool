@@ -28,9 +28,6 @@ class _CustomerScreen extends State<CustomerScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           children: [
-            // Expanded(
-            //   child: CustomerOrderMethods().fetchPremiumOrders(user),
-            // ),
             Expanded(
               child: CustomerOrderMethods().fetchOrders(),
             ),
