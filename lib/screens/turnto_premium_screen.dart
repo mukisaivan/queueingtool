@@ -1,17 +1,13 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 import 'package:queueingtool/common/custom_button.dart';
-import 'package:queueingtool/common/loading.dart';
 import 'package:queueingtool/common/toast_widget.dart';
 import 'package:queueingtool/models/premium_request_model.dart';
 import 'package:queueingtool/models/user.dart';
-import 'package:queueingtool/screens/customer_screen.dart';
+import 'package:queueingtool/payment/flutter_wave.dart';
 import 'package:uuid/uuid.dart';
 
 class TurnToPremiumScreen extends StatefulWidget {
@@ -56,6 +52,44 @@ class _TurnToPremiumScreenState extends State<TurnToPremiumScreen> {
       Navigator.pop(context);
     }
 
+    proceedToMakePayment() {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text(
+              'Payment',
+              style: TextStyle(color: Color.fromARGB(255, 216, 0, 254)),
+            ),
+            content: const Text(
+              'Do you want to continue to make Ugx. 10000 payment ?',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+                child: const Text('Cancel',
+                    style: TextStyle(
+                        fontSize: 25, color: Color.fromARGB(255, 216, 0, 254))),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.pushReplacementNamed(
+                      context, FlutterWaveScreen.routeName);
+                },
+                child: const Text('OK',
+                    style: TextStyle(
+                        fontSize: 25, color: Color.fromARGB(255, 216, 0, 254))),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Turn To Premium User"),
@@ -64,12 +98,23 @@ class _TurnToPremiumScreenState extends State<TurnToPremiumScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(
-            child: CustomButton(
-                label: "Request To Turn Premium",
-                onTap: () {
-                  // turnUserCurrentNormalUserToPremium();
-                  requestToBecomePremium();
-                }),
+            child: Column(
+              children: [
+                CustomButton(
+                  label: "Send Request to pay Physically",
+                  onTap: () {
+                    requestToBecomePremium();
+                  },
+                ),
+                const SizedBox(height: 50),
+                CustomButton(
+                  label: "Use Mobile Money 💲💸",
+                  onTap: () {
+                    proceedToMakePayment();
+                  },
+                ),
+              ],
+            ),
           )
         ],
       ),

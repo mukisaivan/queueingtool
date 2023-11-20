@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
+// import 'package:google_fonts/google_fonts.dart';
 import 'package:queueingtool/firebase_options.dart';
 import 'package:queueingtool/router.dart';
 import 'package:queueingtool/screens/splash_screen.dart';
@@ -28,11 +29,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'QueVex',
       theme: ThemeData(
-          colorScheme: ColorScheme.fromSwatch().copyWith(
-            primary: const Color.fromARGB(255, 237, 135, 255),
-          ),
-          textTheme:
-              GoogleFonts.bubblegumSansTextTheme(Theme.of(context).textTheme)),
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: const Color.fromARGB(255, 237, 135, 255),
+        ),
+        textTheme:
+            GoogleFonts.bubblegumSansTextTheme(Theme.of(context).textTheme),
+      ),
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {

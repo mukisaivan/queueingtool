@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:queueingtool/models/user.dart';
+import 'package:queueingtool/payment/flutter_wave.dart';
 import 'package:queueingtool/screens/counter_screen.dart';
 import 'package:queueingtool/screens/customer_first_screen.dart';
 import 'package:queueingtool/screens/customer_screen.dart';
@@ -17,6 +16,13 @@ Route<dynamic> genarateRoutes(RouteSettings routeSettings) {
 
     case LoginScreen.routeName:
       return MaterialPageRoute(builder: (_) => const LoginScreen());
+
+    case FlutterWaveScreen.routeName:
+      var currentuser = FirebaseAuth.instance.currentUser;
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => FlutterWaveScreen(currentUser: currentuser!),
+      );
 
     case CounterScreen.routeName:
       return MaterialPageRoute(builder: (_) => const CounterScreen());
