@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:queueingtool/common/signout_button.dart';
 import 'package:queueingtool/methods/customer_order_methods.dart';
-import 'package:queueingtool/screens/turnto_premium_screen.dart';
 
 class CustomerScreen extends StatefulWidget {
   static const String routeName = "/home-screen";
@@ -36,15 +35,6 @@ class _CustomerScreen extends State<CustomerScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 SignOutButton(context: context),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, TurnToPremiumScreen.routeName);
-                  },
-                  style: const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(
-                          Color.fromARGB(255, 255, 179, 0))),
-                  child: const Text("Update to Premium"),
-                )
               ],
             )
           ],
