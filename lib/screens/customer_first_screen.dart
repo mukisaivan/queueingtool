@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:queueingtool/common/loading.dart';
 import 'package:queueingtool/common/signout_button.dart';
 import 'package:queueingtool/screens/customer_screen.dart';
 import 'package:queueingtool/screens/service_widgets.dart';
@@ -24,7 +23,7 @@ class _CustomerFirstScreenState extends State<CustomerFirstScreen> {
 
     var data = userSnap.data();
     var accountType = data!['accountType'];
-    if (accountType == "Premium") {
+    if (accountType != "Premium") {
       return ElevatedButton(
         onPressed: () {
           Navigator.pushNamed(context, TurnToPremiumScreen.routeName);
@@ -73,23 +72,10 @@ class _CustomerFirstScreenState extends State<CustomerFirstScreen> {
               FutureBuilder(
                 future: checkUserAccountStatus(),
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return const SizedBox();
-                  } else if (snapshot.connectionState ==
-                      ConnectionState.waiting) {
-                    const SizedBox();
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return snapshot.data ?? const SizedBox();
                   }
-
-                  return ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(
-                          context, TurnToPremiumScreen.routeName);
-                    },
-                    style: const ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(
-                            Color.fromARGB(255, 255, 179, 0))),
-                    child: const Text("Update to Premium"),
-                  );
+                  return const CircularProgressIndicator();
                 },
               )
             ],

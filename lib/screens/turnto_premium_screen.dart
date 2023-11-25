@@ -62,7 +62,7 @@ class _TurnToPremiumScreenState extends State<TurnToPremiumScreen> {
               style: TextStyle(color: Color.fromARGB(255, 216, 0, 254)),
             ),
             content: const Text(
-              'Do you want to continue to make Ugx. 10000 payment ?',
+              'Continue to make Ugx. 10,000 Payment ?',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             actions: [

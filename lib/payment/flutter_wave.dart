@@ -26,7 +26,7 @@ class FlutterWaveScreen extends StatefulWidget {
 
 class _FlutterWaveScreenState extends State<FlutterWaveScreen> {
   final formKey = GlobalKey<FormState>();
-  final amountController = TextEditingController(text: "5000");
+  final amountController = TextEditingController(text: "Shs. 10,000");
   final currencyController = TextEditingController(text: "UGX");
   final narrationController = TextEditingController();
   final publicKeyController =
@@ -251,7 +251,7 @@ class _FlutterWaveScreenState extends State<FlutterWaveScreen> {
   }
 
   Widget _getCurrency() {
-    final currencies = ["RWF", "UGX", "KES"];
+    final currencies = ["UGX"];
     return Container(
       height: 250,
       margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),

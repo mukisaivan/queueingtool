@@ -555,6 +555,8 @@ class CustomerOrderMethods {
                                     onPressed: () {
                                       updateOrderStatus(
                                           order, StatusEnum.Waiting);
+                                      updatePremiumOrderStatus(
+                                          order, StatusEnum.Waiting);
                                     },
                                     child: const Text('Waiting'),
                                   )
@@ -563,6 +565,8 @@ class CustomerOrderMethods {
                                 ? ElevatedButton(
                                     onPressed: () {
                                       updateOrderStatus(
+                                          order, StatusEnum.Pending);
+                                      updatePremiumOrderStatus(
                                           order, StatusEnum.Pending);
                                       print(
                                           "-----------------------${order.orderowner.accountType.name}");
@@ -573,6 +577,8 @@ class CustomerOrderMethods {
                             ElevatedButton(
                               onPressed: () {
                                 updateOrderStatus(order, StatusEnum.Completed);
+                                updatePremiumOrderStatus(
+                                    order, StatusEnum.Completed);
                                 deletePremiumOrder(order);
                                 deleteOrder(order);
                                 toastWidget("Order Completed",
@@ -607,8 +613,6 @@ class CustomerOrderMethods {
   }
 
   Widget buildNormalOrderCard(OrderModel order, int index) {
-    // OrderStatus orderStatus = OrderStatus.Waiting;
-
     String orderStatusToString(StatusEnum status) {
       switch (status.name) {
         case "Waiting":
@@ -631,20 +635,6 @@ class CustomerOrderMethods {
           return const Color.fromARGB(255, 0, 255, 8);
       }
       return const Color.fromARGB(255, 88, 86, 65);
-    }
-
-    void updateOrderStatus(OrderModel order, StatusEnum newStatus) async {
-      try {
-        await FirebaseFirestore.instance
-            .collection("Orders")
-            .doc(order.id)
-            .update({
-          'status': newStatus.toString().split(".").last,
-          'updatedAt': DateTime.now().millisecondsSinceEpoch,
-        });
-      } catch (e) {
-        print("Error: $e");
-      }
     }
 
     String orderService = order.service.toString().split(".").last;
@@ -788,6 +778,8 @@ class CustomerOrderMethods {
                                     onPressed: () {
                                       updateOrderStatus(
                                           order, StatusEnum.Waiting);
+                                      updateNormalOrderStatus(
+                                          order, StatusEnum.Waiting);
                                     },
                                     child: const Text('Waiting'),
                                   )
@@ -796,6 +788,8 @@ class CustomerOrderMethods {
                                 ? ElevatedButton(
                                     onPressed: () {
                                       updateOrderStatus(
+                                          order, StatusEnum.Pending);
+                                      updateNormalOrderStatus(
                                           order, StatusEnum.Pending);
                                       print(
                                           "-----------------------${order.orderowner.accountType.name}");
@@ -806,6 +800,8 @@ class CustomerOrderMethods {
                             ElevatedButton(
                               onPressed: () {
                                 updateOrderStatus(order, StatusEnum.Completed);
+                                updateNormalOrderStatus(
+                                    order, StatusEnum.Completed);
                                 deleteNormalOrder(order);
                                 deleteOrder(order);
                                 toastWidget("Order Completed",
@@ -869,6 +865,48 @@ class CustomerOrderMethods {
           .delete();
     } catch (e) {
       toastWidget("$e", Colors.red);
+    }
+  }
+
+  void updateOrderStatus(OrderModel order, StatusEnum newStatus) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("Orders")
+          .doc(order.id)
+          .update({
+        'status': newStatus.toString().split(".").last,
+        'updatedAt': DateTime.now().millisecondsSinceEpoch,
+      });
+    } catch (e) {
+      print("Error: $e");
+    }
+  }
+
+  void updateNormalOrderStatus(OrderModel order, StatusEnum newStatus) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("NormalOrders")
+          .doc(order.orderowner.uid)
+          .update({
+        'status': newStatus.toString().split(".").last,
+        'updatedAt': DateTime.now().millisecondsSinceEpoch,
+      });
+    } catch (e) {
+      print("Error: $e");
+    }
+  }
+
+  void updatePremiumOrderStatus(OrderModel order, StatusEnum newStatus) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("PremiumOrders")
+          .doc(order.orderowner.uid)
+          .update({
+        'status': newStatus.toString().split(".").last,
+        'updatedAt': DateTime.now().millisecondsSinceEpoch,
+      });
+    } catch (e) {
+      print("Error: $e");
     }
   }
 
