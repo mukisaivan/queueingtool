@@ -51,6 +51,7 @@ dependencies:
   google_fonts: ^6.1.0
   http: ^1.1.0
   flutterwave_standard: ^1.0.8
+  google_mobile_ads: ^3.1.0
 
 dev_dependencies:
   flutter_test:

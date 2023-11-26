@@ -83,9 +83,7 @@ class CustomerOrderMethods {
         return ListView.builder(
           itemCount: ordersList.length,
           itemBuilder: (context, index) {
-            return
-                //  buildOrderCard(ordersList[index], index);
-                buildPremiumOrderCard(ordersList[index], index);
+            return buildPremiumOrderCard(ordersList[index], index);
           },
         );
       },
@@ -576,9 +574,9 @@ class CustomerOrderMethods {
                                 : const SizedBox(),
                             ElevatedButton(
                               onPressed: () {
-                                updateOrderStatus(order, StatusEnum.Completed);
-                                updatePremiumOrderStatus(
-                                    order, StatusEnum.Completed);
+                                // updateOrderStatus(order, StatusEnum.Completed);
+                                // updatePremiumOrderStatus(
+                                //     order, StatusEnum.Completed);
                                 deletePremiumOrder(order);
                                 deleteOrder(order);
                                 toastWidget("Order Completed",
@@ -727,22 +725,21 @@ class CustomerOrderMethods {
                                       fontWeight: FontWeight.w800),
                                 )
                               : const SizedBox(),
-
                           Text(
                             'Ordered by : ${order.orderowner.username}',
                             style: const TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.bold),
                           ),
                           FutureBuilder(
-                              future: showAccountTypeName(),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  const Loading();
-                                }
-
-                                return snapshot.data ?? Container();
-                              }),
+                            future: showAccountTypeName(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                const Loading();
+                              }
+                              return snapshot.data ?? Container();
+                            },
+                          ),
 
                           const SizedBox(height: 8.0),
                           Text(
@@ -799,9 +796,9 @@ class CustomerOrderMethods {
                                 : const SizedBox(),
                             ElevatedButton(
                               onPressed: () {
-                                updateOrderStatus(order, StatusEnum.Completed);
-                                updateNormalOrderStatus(
-                                    order, StatusEnum.Completed);
+                                // updateOrderStatus(order, StatusEnum.Completed);
+                                // updateNormalOrderStatus(
+                                //     order, StatusEnum.Completed);
                                 deleteNormalOrder(order);
                                 deleteOrder(order);
                                 toastWidget("Order Completed",

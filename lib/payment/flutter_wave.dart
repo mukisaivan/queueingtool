@@ -7,6 +7,7 @@ import 'package:queueingtool/common/toast_widget.dart';
 import 'package:queueingtool/models/user.dart';
 import 'package:queueingtool/payment/flutter_wave_keys.dart';
 import 'package:queueingtool/screens/counter_screen.dart';
+import 'package:queueingtool/screens/customer_first_screen.dart';
 import 'package:queueingtool/screens/customer_screen.dart';
 import 'package:uuid/uuid.dart';
 
@@ -26,16 +27,17 @@ class FlutterWaveScreen extends StatefulWidget {
 
 class _FlutterWaveScreenState extends State<FlutterWaveScreen> {
   final formKey = GlobalKey<FormState>();
-  final amountController = TextEditingController(text: "Shs. 10,000");
+  final amountController = TextEditingController(text: "10000");
   final currencyController = TextEditingController(text: "UGX");
-  final narrationController = TextEditingController();
   final publicKeyController =
       TextEditingController(text: FlutterWaveKeys.publickey);
   final encryptionKeyController =
       TextEditingController(text: FlutterWaveKeys.encryptionkey);
-  final emailController = TextEditingController();
+  final emailController = TextEditingController(
+      text: "${FirebaseAuth.instance.currentUser!.email}");
   final phoneNumberController = TextEditingController();
-  final nameController = TextEditingController();
+  final nameController = TextEditingController(
+      text: FirebaseAuth.instance.currentUser!.email!.split("@").first);
 
   String selectedCurrency = "";
 
@@ -235,7 +237,7 @@ class _FlutterWaveScreenState extends State<FlutterWaveScreen> {
         "accountType": AccountTypeEnum.Premium.name,
       });
       toastWidget("Your account is now Premium 😁", Colors.green);
-      Navigator.pushNamed(context, CounterScreen.routeName);
+      Navigator.pushNamed(context, CustomerFirstScreen.routeName);
     } catch (e) {
       toastWidget("Error: ${e.toString()}", Colors.red);
     }
@@ -251,7 +253,7 @@ class _FlutterWaveScreenState extends State<FlutterWaveScreen> {
   }
 
   Widget _getCurrency() {
-    final currencies = ["UGX"];
+    final currencies = ["KSH", "UGX"];
     return Container(
       height: 250,
       margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
