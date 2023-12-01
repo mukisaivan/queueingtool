@@ -34,6 +34,7 @@ class CustomerOrderMethods {
 
     var orders = FirebaseFirestore.instance.collection("Orders");
     await orders.doc(orderId).set(order.toMap());
+
     toastWidget(
       "Order Made Successfully ✅",
       const Color.fromARGB(255, 255, 101, 250),
@@ -118,8 +119,6 @@ class CustomerOrderMethods {
   }
 
   Widget buildOrderCard(OrderModel order, int index) {
-    // OrderStatus orderStatus = OrderStatus.Waiting;
-
     String orderStatusToString(StatusEnum status) {
       switch (status.name) {
         case "Waiting":
@@ -281,7 +280,7 @@ class CustomerOrderMethods {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
                                   // const Loading();
-                                  putProductAmongPremiumOrders();
+                                  putProductAmongPremiumOrders(); //++++++++++ prone to bugs every time the tick reloads, if the ordetr is added to premiumOrders
                                 }
 
                                 return snapshot.data ?? Container();
