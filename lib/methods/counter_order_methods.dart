@@ -144,7 +144,8 @@ class CounterOrderMethods {
         "accountType": AccountTypeEnum.Premium.name,
       });
       toastWidget("Request has been Approved 😁", Colors.green);
-      Navigator.pushNamed(context, CounterScreen.routeName);
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => const CounterScreen()));
     } catch (e) {
       Navigator.pop(context); // Close loading dialog on error
       toastWidget("Error: ${e.toString()}", Colors.red);

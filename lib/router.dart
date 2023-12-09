@@ -24,8 +24,8 @@ Route<dynamic> genarateRoutes(RouteSettings routeSettings) {
         builder: (_) => FlutterWaveScreen(currentUser: currentuser!),
       );
 
-    case CounterScreen.routeName:
-      return MaterialPageRoute(builder: (_) => const CounterScreen());
+    // case CounterScreen.routeName:
+    //   return MaterialPageRoute(builder: (_) => const CounterScreen());
 
     case CustomerScreen.routeName:
       return MaterialPageRoute(

@@ -36,10 +36,9 @@ class _CustomerScreen extends State<CustomerScreen> {
                 onAdShowedFullScreenContent: (ad) {},
                 onAdImpression: (ad) {},
                 onAdFailedToShowFullScreenContent: (ad, err) {
-                  // loadInterVideoAd();
+                  _interstitialVideoAd!.dispose();
                 },
                 onAdDismissedFullScreenContent: (ad) {
-                  // loadInterVideoAd();
                   _interstitialVideoAd!.dispose();
                 },
                 onAdClicked: (ad) {});

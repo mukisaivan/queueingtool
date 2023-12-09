@@ -48,14 +48,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
       if (_image != null) {
         await AuthMethods().signUpUser(
-          name: nameController.text,
-          email: emailController.text,
+          name: nameController.text.trim(),
+          email: emailController.text.trim(),
           password: passwordController.text,
           file: _image!,
         );
 
         if (context.mounted) {
-          Navigator.pushNamed(context, LoginScreen.routeName);
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (_) => const LoginScreen()));
         }
       } else {
         Fluttertoast.showToast(

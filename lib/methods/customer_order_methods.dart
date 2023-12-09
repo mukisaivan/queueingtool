@@ -219,7 +219,20 @@ class CustomerOrderMethods {
             .collection("PremiumOrders")
             .doc(order.orderowner.uid)
             .set(order.toMap());
-      } else {
+
+        deleteNormalOrder(order);
+      }
+    }
+
+    putProductAmongNormalOrders() async {
+      var snap = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(order.orderowner.uid)
+          .get();
+
+      var accountType = snap.data()!["accountType"];
+
+      if (accountType == "Normal") {
         FirebaseFirestore.instance
             .collection("NormalOrders")
             .doc(order.orderowner.uid)
@@ -275,16 +288,38 @@ class CustomerOrderMethods {
                                 fontSize: 15, fontWeight: FontWeight.bold),
                           ),
                           FutureBuilder(
-                              future: showAccountTypeName(),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  // const Loading();
-                                  putProductAmongPremiumOrders(); //++++++++++ prone to bugs every time the tick reloads, if the ordetr is added to premiumOrders
-                                }
+                            future: showAccountTypeName(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                FirebaseFirestore.instance
+                                    .collection("PremiumOrders")
+                                    .doc(order.orderowner.uid)
+                                    .get()
+                                    .then(
+                                  (docsnap) {
+                                    if (!docsnap.exists) {
+                                      putProductAmongPremiumOrders();
+                                    }
+                                  },
+                                );
+                                FirebaseFirestore.instance
+                                    .collection("NormalOrders")
+                                    .doc(order.orderowner.uid)
+                                    .get()
+                                    .then(
+                                  (docsnap) {
+                                    if (!docsnap.exists) {
+                                      putProductAmongNormalOrders();
+                                    }
+                                  },
+                                );
 
-                                return snapshot.data ?? Container();
-                              }),
+                                // putProductAmongPremiumOrders(); //++++++++++ prone to bugs every time the tick reloads, if the ordetr is added to premiumOrders
+                              }
+                              return snapshot.data ?? Container();
+                            },
+                          ),
 
                           const SizedBox(height: 8.0),
                           Text(
@@ -371,8 +406,6 @@ class CustomerOrderMethods {
   }
 
   Widget buildPremiumOrderCard(OrderModel order, int index) {
-    // OrderStatus orderStatus = OrderStatus.Waiting;
-
     String orderStatusToString(StatusEnum status) {
       switch (status.name) {
         case "Waiting":
@@ -573,9 +606,6 @@ class CustomerOrderMethods {
                                 : const SizedBox(),
                             ElevatedButton(
                               onPressed: () {
-                                // updateOrderStatus(order, StatusEnum.Completed);
-                                // updatePremiumOrderStatus(
-                                //     order, StatusEnum.Completed);
                                 deletePremiumOrder(order);
                                 deleteOrder(order);
                                 toastWidget("Order Completed",
@@ -795,9 +825,6 @@ class CustomerOrderMethods {
                                 : const SizedBox(),
                             ElevatedButton(
                               onPressed: () {
-                                // updateOrderStatus(order, StatusEnum.Completed);
-                                // updateNormalOrderStatus(
-                                //     order, StatusEnum.Completed);
                                 deleteNormalOrder(order);
                                 deleteOrder(order);
                                 toastWidget("Order Completed",
