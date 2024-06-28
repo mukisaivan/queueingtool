@@ -13,7 +13,8 @@ Welcome to the Bank Queue Management Tool! This application is designed to help 
 
 ## Screenshots
 
--Screenshots are availed in the screenshots folder in the main branch.
+-Screenshots are availed in the Sample Screens.ppt in the main branch.
+(Samplescreens.ppt)
 
 ## Getting Started
 
