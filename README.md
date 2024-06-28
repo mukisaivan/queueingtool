@@ -21,10 +21,14 @@ Welcome to the Bank Queue Management Tool! This application is designed to help 
 
 Ensure you have the following installed:
 
-- Flutter SDK: [Flutter Installation Guide](https://flutter.dev/docs/get-started/install)
-- Firebase Account: [Firebase Signup](https://firebase.google.com/)
-- Google AdMob Account: [AdMob Signup](https://admob.google.com/home/)
-- Flutterwave Account: [Flutterwave Signup](https://www.flutterwave.com/)
+## 🚀 Tech Stack
+
+- **Frontend**: ![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white)
+- **Backend**: ![Firebase](https://img.shields.io/badge/Firebase-%23039BE5.svg?style=for-the-badge&logo=Firebase&logoColor=white)
+- **Ad Integration**: ![Google AdMob](https://img.shields.io/badge/AdMob-%23EA4335.svg?style=for-the-badge&logo=AdMob&logoColor=white)
+- **Payments**: ![Flutterwave](https://img.shields.io/badge/Flutterwave-%23001D3F.svg?style=for-the-badge&logo=Flutterwave&logoColor=white)
+- **Hosting and Rendering**: ![Vercel](https://img.shields.io/badge/Vercel-%23000000.svg?style=for-the-badge&logo=Vercel&logoColor=white)
+
 
 ### Installation
 
