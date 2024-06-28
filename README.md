@@ -31,7 +31,7 @@ Ensure you have the following installed:
 1. Clone the repository:
 
     ```bash
-    [git clone https://github.com/mukisaivan/queueingtool.git]
+    git clone https://github.com/mukisaivan/queueingtool.git
     cd queueingtool
     ```
 
