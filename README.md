@@ -31,8 +31,8 @@ Ensure you have the following installed:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/yourusername/bank-queue-management-tool.git
-    cd bank-queue-management-tool
+    [git clone https://github.com/mukisaivan/queueingtool.git]
+    cd queueingtool
     ```
 
 2. Install dependencies:
