@@ -27,7 +27,6 @@ Ensure you have the following installed:
 - **Backend**: ![Firebase](https://img.shields.io/badge/Firebase-%23039BE5.svg?style=for-the-badge&logo=Firebase&logoColor=white)
 - **Ad Integration**: ![Google AdMob](https://img.shields.io/badge/AdMob-%23EA4335.svg?style=for-the-badge&logo=AdMob&logoColor=white)
 - **Payments**: ![Flutterwave](https://img.shields.io/badge/Flutterwave-%23001D3F.svg?style=for-the-badge&logo=Flutterwave&logoColor=white)
-- **Hosting and Rendering**: ![Vercel](https://img.shields.io/badge/Vercel-%23000000.svg?style=for-the-badge&logo=Vercel&logoColor=white)
 
 
 ### Installation
